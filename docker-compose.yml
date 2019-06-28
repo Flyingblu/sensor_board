@@ -1,0 +1,26 @@
+version '3'
+services:
+  influxdb:
+    image: "influxdb:1.5-alpine"
+    networks:
+      - sensor_board
+    volumns:
+      - "/home/realflyingblu/database:/var/lib/influxdb"
+
+  go-client:
+    build: .
+    depends_on:
+      - influxdb
+    networks:
+      - sensor_board
+    ports:
+      - "8080:8080"
+
+  grafana:
+    image: "grafana/grafana"
+    depends_on:
+      - influxdb
+    networks:
+      - sensor_board
+    ports:
+      - "3000:3000"

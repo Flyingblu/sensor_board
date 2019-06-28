@@ -7,8 +7,9 @@ import (
 )
 
 func main() {
+	// gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
-	ifClient := influxclient.InfluxClient{InfluxUrl: "http://localhost:8086", Token: "flyingbluisawesome", Database: "helloworld"}
+	ifClient := influxclient.InfluxClient{InfluxUrl: influxclient.HostAddr, Token: influxclient.ClientToken, Database: influxclient.Database}
 
 	server.POST("/write_data", func(c *gin.Context) {
 		value, err := strconv.ParseFloat(c.PostForm("value"), 64)
