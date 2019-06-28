@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/flyingblu/sensor_board/influxclient"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"net/url"
 	"strconv"
 )
 
@@ -10,6 +13,9 @@ func main() {
 	// gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
 	ifClient := influxclient.InfluxClient{InfluxUrl: influxclient.HostAddr, Token: influxclient.ClientToken, Database: influxclient.Database}
+
+	createDBCommand := fmt.Sprintf("create database \"%v\"", influxclient.Database)
+	http.PostForm(influxclient.HostAddr, url.Values{"db": {influxclient.Database}, "q": {createDBCommand}})
 
 	server.POST("/write_data", func(c *gin.Context) {
 		value, err := strconv.ParseFloat(c.PostForm("value"), 64)

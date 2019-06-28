@@ -5,7 +5,7 @@ services:
     networks:
       - sensor_board
     volumns:
-      - "/home/realflyingblu/database:/var/lib/influxdb"
+      - "my/host/machine/store/place:/var/lib/influxdb"
 
   go-client:
     build: .
